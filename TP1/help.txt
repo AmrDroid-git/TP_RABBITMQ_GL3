@@ -1,0 +1,31 @@
+### 1. Basic Queue Messaging (The "Hello" Queue)
+* `Send.java`: Connects to RabbitMQ and drops a simple, hardcoded message ("7mema") directly into a specific queue named "hello".
+* `Receive.java`: Connects to that exact same "hello" queue, waits for messages to arrive, and consumes them to print to your screen.
+
+### 2. Exchange Routing (The Logging System)
+* `EmitLogDirect.java`: Sends a log message to a sorting center called an "exchange" and attaches a specific severity label (like `info` or `error`) to it, without knowing what queue it will end up in.
+* `ReceiveLogsDirect.java`: Creates a temporary, nameless queue and tells the exchange, "Only route messages to my queue if they have these specific severity labels," and then consumes those filtered messages.
+
+
+
+for the send and receive codes, just run them easily.
+
+for the emit and receive logs codes, you have to compile them manually then run with args.
+
+exemple:
+
+Start the Receiver (Consumer) FIRST
+java -cp ".;lib/*" ReceiveLogsDirect info warning error
+
+
+Start the Sender (Producer)
+java -cp ".;lib/*" EmitLogDirect error "Help, the database is on fire!"
+
+java -cp ".;lib/*" EmitLogDirect info "User logged in successfully."
+
+
+Check the Results!
+java -cp ".;lib/*" ReceiveLogsDirect error
+
+
+
