@@ -1,0 +1,28 @@
+bel falle9i:
+
+//awel 7eja t5adem el docker file bech tasna3 el db's
+docker compose up -d
+
+//t3abbi el databases
+docker exec -i branch_office_1_db mysql -uroot -proot bo1_sales_db < bio1.sql
+docker exec -i branch_office_2_db mysql -uroot -proot bo2_sales_db < bio2.sql
+docker exec -i head_office_db mysql -uroot -proot ho_sales_db < ho.sql
+
+
+//tcompili el codes mte3ek:
+javac -cp ".;../lib/*" *.java
+
+//t5addem el setup marra fi 7yetek bech traka7 el server
+java -cp ".;../lib/*" SetupRabbitMQ
+
+//t5addam eli t7eb 3lih tawa jawk behi
+java -cp ".;../lib/*" BranchOffice1
+java -cp ".;../lib/*" BranchOffice2
+java -cp ".;../lib/*" HeadOffice
+
+
+//ken t7eb ta3mal talla 3al database content:
+docker exec -it branch_office_1_db mysql -uroot -proot bo1_sales_db
+docker exec -it branch_office_2_db mysql -uroot -proot bo2_sales_db
+docker exec -it head_office_db mysql -uroot -proot ho_sales_db
+-->then:   SELECT * FROM product_sales;

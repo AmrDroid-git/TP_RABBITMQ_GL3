@@ -1,0 +1,30 @@
+services:
+  # Head Office Database
+  ho-db:
+    image: mysql:8.0
+    container_name: head_office_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ho_sales_db
+    ports:
+      - "3310:3306"
+
+  # Branch Office 1 Database
+  bo1-db:
+    image: mysql:8.0
+    container_name: branch_office_1_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bo1_sales_db
+    ports:
+      - "3311:3306"
+
+  # Branch Office 2 Database
+  bo2-db:
+    image: mysql:8.0
+    container_name: branch_office_2_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bo2_sales_db
+    ports:
+      - "3312:3306"
