@@ -1,5 +1,4 @@
-# TP-S_MR_OUNI_GL3
-
+# TP RABBITMQ GL3
 # TPs - Distributed Systems Practical Work
 
 Welcome to my `tp's` repository! This repository contains code, examples, and configurations for my practical works (Travaux Pratiques) focusing on distributed systems and messaging architectures.
