@@ -54,7 +54,6 @@ public class HeadOffice {
         };
 
         // Start consuming (autoAck is false for safety)
-        channel.basicConsume(queueName, false, deliverCallback, consumerTag -> {
-        });
+        channel.basicConsume(queueName, false, deliverCallback, consumerTag -> {});
     }
 }

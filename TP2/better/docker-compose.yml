@@ -18,6 +18,7 @@ services:
       MYSQL_DATABASE: bo1_sales_db
     ports:
       - "3311:3306"
+    
 
   # Branch Office 2 Database
   bo2-db:

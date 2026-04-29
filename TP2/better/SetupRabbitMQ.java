@@ -13,17 +13,17 @@ public class SetupRabbitMQ {
 
             System.out.println(" [*] Setting up RabbitMQ Infrastructure...");
 
-            // 1. Create the Exchange
+            // Create the Exchange
             String exchangeName = "sales_sync";
             channel.exchangeDeclare(exchangeName, BuiltinExchangeType.DIRECT);
             System.out.println(" [v] Exchange '" + exchangeName + "' created.");
 
-            // 2. Create the Durable Queue
+            // Create the Durable Queue
             String queueName = "durable_sales_queue";
             channel.queueDeclare(queueName, true, false, false, null);
             System.out.println(" [v] Durable Queue '" + queueName + "' created.");
 
-            // 3. Bind the Queue to the Exchange with the routing key "sales"
+            // Bind the Queue to the Exchange with the routing key "sales"
             channel.queueBind(queueName, exchangeName, "sales");
             System.out.println(" [v] Queue bound to Exchange with routing key 'sales'.");
 

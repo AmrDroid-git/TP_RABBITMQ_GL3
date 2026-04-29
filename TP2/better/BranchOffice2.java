@@ -13,7 +13,7 @@ public class BranchOffice2 {
         String dbUrl = "jdbc:mysql://localhost:3312/bo2_sales_db?useSSL=false&allowPublicKeyRetrieval=true";
         String dbUser = "root";
         String dbPassword = "root";
-        String query = "SELECT * FROM product_sales";
+        String query = "SELECT * FROM product_sales WHERE sync=0";
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -27,8 +27,16 @@ public class BranchOffice2 {
                 Channel channel = mqConnection.createChannel()) {
 
             System.out.println("Connected to BO2 Database and RabbitMQ...");
+            
+            int numberOfUpdatedRows = 0;
 
             while (rs.next()) {
+                int sync = rs.getInt("sync");
+                if(sync == 1) {
+                    continue; // Skip already synced records
+                }
+
+                int id = rs.getInt("id");
                 String date = rs.getString("sale_date");
                 String region = rs.getString("region");
                 String product = rs.getString("product");
@@ -44,7 +52,12 @@ public class BranchOffice2 {
                 channel.basicPublish(EXCHANGE_NAME, "sales", MessageProperties.PERSISTENT_TEXT_PLAIN,
                         message.getBytes("UTF-8"));
                 System.out.println(" [x] Sent to HO: '" + message + "'");
+                String updateQuery = "UPDATE product_sales SET sync=1 WHERE id=?";
+                PreparedStatement updateQueryPreparedStatement = dbConnection.prepareStatement(updateQuery);
+                updateQueryPreparedStatement.setInt(1, id);
+                numberOfUpdatedRows += updateQueryPreparedStatement.executeUpdate();
             }
+            System.out.println(" [x] Number Of Updated Records: '" + numberOfUpdatedRows + "'");
 
         } catch (Exception e) {
             e.printStackTrace();

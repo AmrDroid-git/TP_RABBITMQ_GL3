@@ -15,8 +15,6 @@ CREATE TABLE IF NOT EXISTS product_sales (
 -- HO starts empty and will be populated via RabbitMQ sync
 
 
-
-
 DELIMITER //
 CREATE PROCEDURE SyncProductSale(
     IN p_date VARCHAR(20),
